@@ -15,37 +15,23 @@ def verify_report_safety(filename: str):
         increasing_map = {}
 
         for level_index in range(1, len(report)):
-            if 1 <= abs(report[level_index] - report[level_index - 1]) <= 3:
+            diff = report[level_index] - report[level_index - 1]
+            
+            if 1 <= abs(diff) <= 3:
                 # Check if the previous state was increasing
-                is_increasing = increasing_map.get(level_index - 1, None)
+                is_increasing = increasing_map.get(level_index - 1)
                 
                 if is_increasing is None:
                     # At the first iteration
-                    if report[level_index] > report[level_index - 1]:
-                        increasing_map[level_index] = True
-                    elif report[level_index] < report[level_index - 1]:
-                        increasing_map[level_index] = False
-                    else:
-                        # Impossible case
-                        break
-                        
-                elif is_increasing is True:
-                    # Check if the current is also increasing
-                    if report[level_index] < report[level_index - 1]:
-                        is_safe = False
-                        break
-                    else:
-                        increasing_map[level_index] = True
+                    increasing_map[level_index] = diff > 0
+                elif (is_increasing and diff < 0) or (not is_increasing and diff > 0):
+                    is_safe = False
+                    break
                 else:
-                    # is_increasing is False
-                    if report[level_index] > report[level_index - 1]:
-                        is_safe = False
-                        break
-                    else:
-                        increasing_map[level_index] = False
+                    increasing_map[level_index] = is_increasing
 
             else:
-                # Duplicate value and unsafe
+                # Duplicate value or out of bounds
                 is_safe = False
                 break
 
@@ -53,6 +39,7 @@ def verify_report_safety(filename: str):
             safety_counter += 1
             
     return safety_counter
+
 
 if __name__=="__main__":
     print(verify_report_safety("input2.txt"))
