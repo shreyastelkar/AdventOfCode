@@ -36,5 +36,5 @@ def calculate_similarity_score(filename: str):
     return score
 
 if __name__=="__main__":
-    print(calculate_total_distance("input.txt"))
-    print(calculate_similarity_score("input.txt"))
+    print(calculate_total_distance("input1.txt"))
+    print(calculate_similarity_score("input1.txt"))
