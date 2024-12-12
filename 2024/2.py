@@ -51,7 +51,6 @@ def verify_report_safety(filename: str):
 
         if is_safe:
             safety_counter += 1
-        is_safe = False
             
     return safety_counter
 
