@@ -1,9 +1,6 @@
 def read_reports(filename: str):
-    matrix = []
     with open(filename) as f:
-        for line in f:
-            list_line = [ int(x) for x in line.split()]
-            matrix.append(list_line)
+        matrix = [[ int(x) for x in line.split()] for line in f]
     return matrix
 
 def verify_report_safety(filename: str):
