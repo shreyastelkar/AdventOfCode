@@ -47,14 +47,9 @@ def verify_report_safety_with_exception(filename: str):
         level_index = 1
         while level_index < len(report):
             diff = report[level_index] - report[level_index - 1]
-            
             if is_increasing is None:
                 # At the first iteration
                 is_increasing = diff > 0
-
-            if exception_count >= 2:
-                is_safe = False
-                break
 
             elif diff == 0:
                 report.pop(level_index)
@@ -76,6 +71,8 @@ def verify_report_safety_with_exception(filename: str):
 
                 exception_count += 1
                 level_index -= 1
+            elif not is_increasing and diff > 0:
+                pass
             else:
                 if abs(diff) > 3:
                     if exception_count < 2:
@@ -85,9 +82,13 @@ def verify_report_safety_with_exception(filename: str):
                     else:
                         is_safe = False
                         break
-                    
+            
+            if exception_count >= 2:
+                is_safe = False
+                break
+        
             level_index += 1
-
+            
         if is_safe:
             safety_counter += 1
             
