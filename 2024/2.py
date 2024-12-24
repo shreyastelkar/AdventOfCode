@@ -46,6 +46,8 @@ def verify_report_safety_with_exception(filename: str):
         exception_count = 0
         level_index = 1
         while level_index < len(report):
+            # print(report)
+            # print(report[level_index])
             diff = report[level_index] - report[level_index - 1]
             if is_increasing is None:
                 # At the first iteration
@@ -66,7 +68,7 @@ def verify_report_safety_with_exception(filename: str):
                 local_diff = cur - prev_prev
                 
                 if cur <= prev_prev and abs(local_diff) <= 3:
-                    report.pop(level_index)
+                    report.pop(level_index)                    
                 else:
                     report.pop(level_index - 1)
 
@@ -82,6 +84,7 @@ def verify_report_safety_with_exception(filename: str):
                 
                 if cur <= prev_prev and abs(local_diff) <= 3:
                     report.pop(level_index - 2)
+                    is_increasing = True
                 else:
                     report.pop(level_index)
 
@@ -97,7 +100,8 @@ def verify_report_safety_with_exception(filename: str):
                     else:
                         is_safe = False
                         break
-            
+
+            # print(exception_count)
             if exception_count >= 2:
                 is_safe = False
                 break
@@ -110,4 +114,4 @@ def verify_report_safety_with_exception(filename: str):
     return safety_counter
     
 if __name__=="__main__":
-    print(verify_report_safety_with_exception("input2.txt"))
+    print(verify_report_safety_with_exception("test2.txt"))
